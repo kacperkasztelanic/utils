@@ -1,37 +1,62 @@
 package com.kkasztel.utils.io;
 
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
+import lombok.RequiredArgsConstructor;
+
 import static com.kkasztel.utils.io.Unit.Unit;
+import static lombok.AccessLevel.PRIVATE;
 
-public interface IO<T> {
+@RequiredArgsConstructor(access = PRIVATE)
+public class IO<T> {
 
-    T run();
+    private final Effect<T> effect;
 
-    static <T> IO<T> of(final T value) {
-        return () -> value;
+    public T run() {
+        return effect.run();
     }
 
-    static IO<Unit> noop() {
-        return of(Unit());
+    public Optional<T> safeRun() {
+        try {
+            return Optional.of(effect.run());
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
-    static IO<Unit> sequence(final Iterable<IO<?>> ios) {
+    public static <T> IO<T> of(final Effect<T> effect) {
+        return new IO<>(effect);
+    }
+
+    public static IO<Unit> of() {
+        return of(Unit::Unit);
+    }
+
+    public static IO<Unit> sequence(final Iterable<IO<?>> ios) {
         return StreamSupport.stream(ios.spliterator(), false)
-                .reduce(noop(), IO::andThen)
-                .andThen(noop());
+                .reduce(of(), IO::andThen)
+                .andThen(of());
     }
 
-    default <U> IO<U> map(final Function<T, U> f) {
-        return () -> f.apply(this.run());
+    public <U> IO<U> map(final Function<T, U> f) {
+        return flatMap(result -> IO.of(() -> f.apply(result)));
     }
 
-    default <U> IO<U> flatMap(final Function<T, IO<U>> f) {
-        return () -> f.apply(this.run()).run();
+    public IO<Unit> mapUnit(final Consumer<T> f) {
+        return flatMap(result -> IO.of(() -> {
+            f.accept(result);
+            return Unit();
+        }));
     }
 
-    default <U> IO<U> andThen(final IO<U> io) {
+    public <U> IO<U> flatMap(final Function<T, IO<U>> f) {
+        return IO.of(() -> f.apply(effect.run()).run());
+    }
+
+    public  <U> IO<U> andThen(final IO<U> io) {
         return flatMap(x -> io);
     }
 }
