@@ -14,13 +14,13 @@ class RomanNumbersTest {
 
     @ParameterizedTest
     @MethodSource("provideData")
-    void returnsCorrectInt(String input, int expected) {
+    void returnsCorrectInt(final String input, final int expected) {
         assertEquals(expected, RomanNumbers.fromRoman(input));
     }
 
     @ParameterizedTest
     @MethodSource("provideData")
-    void returnsCorrectRoman(String expected, int input) {
+    void returnsCorrectRoman(final String expected, final int input) {
         assertEquals(expected.trim().toUpperCase(), RomanNumbers.toRoman(input));
     }
 

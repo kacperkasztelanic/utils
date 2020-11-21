@@ -10,22 +10,22 @@ public class ExcelIndex {
     private static final int NUMBER_OF_LETTERS = 'Z' - 'A' + 1;
     private static final int LETTER_A = 'A';
 
-    public static String letters(int index) {
+    public static String letters(final int index) {
         if (index < 1) {
             throw new IllegalArgumentException(String.valueOf(index));
         }
-        StringBuilder res = new StringBuilder();
+        final StringBuilder res = new StringBuilder();
         int n = index;
         while (n > 0) {
-            int remainder = (n - 1) % NUMBER_OF_LETTERS;
+            final int remainder = (n - 1) % NUMBER_OF_LETTERS;
             n = (n - 1) / NUMBER_OF_LETTERS;
             res.append((char) (LETTER_A + remainder));
         }
         return res.reverse().toString();
     }
 
-    public static int index(String letters) {
-        String normalized = letters != null ? letters.trim().toUpperCase() : "";
+    public static int index(final String letters) {
+        final String normalized = letters != null ? letters.trim().toUpperCase() : "";
         if (normalized.isEmpty() || !normalized.chars().allMatch(Character::isLetter)) {
             throw new IllegalArgumentException(letters);
         }

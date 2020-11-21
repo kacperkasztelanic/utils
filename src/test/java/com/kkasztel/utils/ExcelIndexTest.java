@@ -14,13 +14,13 @@ class ExcelIndexTest {
 
     @ParameterizedTest
     @MethodSource("provideData")
-    void returnsCorrectIndex(String input, int expected) {
+    void returnsCorrectIndex(final String input, final int expected) {
         assertEquals(expected, ExcelIndex.index(input));
     }
 
     @ParameterizedTest
     @MethodSource("provideData")
-    void returnsCorrectLetters(String expected, int input) {
+    void returnsCorrectLetters(final String expected, final int input) {
         assertEquals(expected.trim(), ExcelIndex.letters(input));
     }
 
