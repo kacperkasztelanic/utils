@@ -23,12 +23,10 @@ public class CachedSupplier<T> implements Supplier<T> {
                 }
             }
         }
-        return value.get();
+        return val;
     }
 
-    public void invalidate() {
-        synchronized (value) {
-            value.set(null);
-        }
+    public synchronized void invalidate() {
+        value.set(null);
     }
 }

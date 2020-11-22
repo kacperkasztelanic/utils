@@ -14,20 +14,15 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.Value;
 
-import static lombok.AccessLevel.PRIVATE;
-
-@RequiredArgsConstructor(access = PRIVATE)
 public class LocalDateTimePatternRecognizer {
 
     private final boolean monthFirst;
-
-    private final List<Entry> timePatterns = concat(timePatterns(), dateTimePatterns());
-    private final List<Entry> datePatterns = concat(datePatterns(), dateTimePatterns());
-    private final List<Entry> dateTimePatterns = dateTimePatterns();
+    private final List<Entry> dateTimePatterns;
+    private final List<Entry> timePatterns;
+    private final List<Entry> datePatterns;
 
     public static LocalDateTimePatternRecognizer dmy() {
         return new LocalDateTimePatternRecognizer(false);
@@ -35,6 +30,13 @@ public class LocalDateTimePatternRecognizer {
 
     public static LocalDateTimePatternRecognizer mdy() {
         return new LocalDateTimePatternRecognizer(true);
+    }
+
+    private LocalDateTimePatternRecognizer(boolean monthFirst) {
+        this.monthFirst = monthFirst;
+        this.dateTimePatterns = dateTimePatterns();
+        this.timePatterns = concat(timePatterns(), this.dateTimePatterns);
+        this.datePatterns = concat(datePatterns(), this.dateTimePatterns);
     }
 
     public Optional<String> recognizeTimePattern(final String str) {

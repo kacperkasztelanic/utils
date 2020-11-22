@@ -18,11 +18,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LocalDateTimePatternRecognizerTest {
 
+    private final LocalDateTimePatternRecognizer dmy = LocalDateTimePatternRecognizer.dmy();
+    private final LocalDateTimePatternRecognizer mdy = LocalDateTimePatternRecognizer.mdy();
+
     @ParameterizedTest
     @MethodSource("provideDates")
     void recognizesDatePattern(final String input, final String expectedDmy, final String expectedMdy) {
-        LocalDateTimePatternRecognizer dmy = LocalDateTimePatternRecognizer.dmy();
-        LocalDateTimePatternRecognizer mdy = LocalDateTimePatternRecognizer.mdy();
         assertEquals(Optional.of(expectedDmy), dmy.recognizeDatePattern(input));
         assertEquals(Optional.of(expectedMdy), mdy.recognizeDatePattern(input));
     }
@@ -30,8 +31,6 @@ class LocalDateTimePatternRecognizerTest {
     @ParameterizedTest
     @MethodSource("provideTimes")
     void recognizesTimePattern(final String input, final String expectedDmy, final String expectedMdy) {
-        LocalDateTimePatternRecognizer dmy = LocalDateTimePatternRecognizer.dmy();
-        LocalDateTimePatternRecognizer mdy = LocalDateTimePatternRecognizer.mdy();
         assertEquals(Optional.of(expectedDmy), dmy.recognizeTimePattern(input));
         assertEquals(Optional.of(expectedMdy), mdy.recognizeTimePattern(input));
     }
@@ -39,8 +38,6 @@ class LocalDateTimePatternRecognizerTest {
     @ParameterizedTest
     @MethodSource("provideDateTimes")
     void recognizesDateTimePattern(final String input, final String expectedDmy, final String expectedMdy) {
-        LocalDateTimePatternRecognizer dmy = LocalDateTimePatternRecognizer.dmy();
-        LocalDateTimePatternRecognizer mdy = LocalDateTimePatternRecognizer.mdy();
         assertEquals(Optional.of(expectedDmy), dmy.recognizeDateTimePattern(input));
         assertEquals(Optional.of(expectedMdy), mdy.recognizeDateTimePattern(input));
     }
