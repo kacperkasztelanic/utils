@@ -145,7 +145,7 @@ public class LocalDateTimePatternRecognizer {
             this.regex = regex;
             this.dmyPattern = dmyPattern;
             this.mdyPattern = mdyPattern;
-            this.pattern = CachedSupplier.of(() -> Pattern.compile(String.format("^%s$", regex)));
+            this.pattern = CachedSupplier.of(() -> Pattern.compile("^" + regex + "$"));
         }
 
         public Matcher matcher(final CharSequence sequence) {
