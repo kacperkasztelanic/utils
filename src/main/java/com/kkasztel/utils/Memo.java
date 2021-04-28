@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-public class Memo<T, U> {
+public final class Memo<T, U> {
 
     private final Map<T, U> cache = new ConcurrentHashMap<>();
 

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-public class Condition {
+public final class Condition {
 
     public static <T> Statement<T> whether(final Supplier<Boolean> condition, final Supplier<T> action) {
         return Statement.of(condition, action);

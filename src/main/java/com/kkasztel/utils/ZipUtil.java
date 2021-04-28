@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-public class ZipUtil {
+public final class ZipUtil {
 
     public static byte[] zip(final Map<String, byte[]> map) throws IOException {
         final ByteArrayOutputStream baos = new ByteArrayOutputStream();

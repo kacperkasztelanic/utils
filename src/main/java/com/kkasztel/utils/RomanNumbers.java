@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-public class RomanNumbers {
+public final class RomanNumbers {
 
     private static final Map<String, Integer> FROM_ROMAN_MAP = fromRomanMap();
     private static final Map<Integer, String> TO_ROMAN_MAP = toRomanMap();

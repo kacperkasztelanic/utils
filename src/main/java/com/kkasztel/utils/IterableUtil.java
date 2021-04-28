@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-public class IterableUtil {
+public final class IterableUtil {
 
     public static <T, U> U foldLeft(Iterable<T> iterable, U identity,
             BiFunction<? super U, ? super T, ? extends U> combine) {

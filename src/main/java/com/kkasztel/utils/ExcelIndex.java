@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
-public class ExcelIndex {
+public final class ExcelIndex {
 
     private static final int NUMBER_OF_LETTERS = 'Z' - 'A' + 1;
     private static final int LETTER_A = 'A';
