@@ -3,11 +3,11 @@ package com.kkasztel.utils.io;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
-import java.util.stream.StreamSupport;
 
 import lombok.RequiredArgsConstructor;
 
 import static com.kkasztel.utils.io.Unit.Unit;
+import static java.util.stream.StreamSupport.stream;
 import static lombok.AccessLevel.PRIVATE;
 
 @RequiredArgsConstructor(access = PRIVATE)
@@ -36,7 +36,7 @@ public class IO<T> {
     }
 
     public static IO<Unit> sequence(final Iterable<IO<?>> ios) {
-        return StreamSupport.stream(ios.spliterator(), false)
+        return stream(ios.spliterator(), false)
                 .reduce(of(), IO::andThen)
                 .andThen(of());
     }

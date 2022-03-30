@@ -1,9 +1,10 @@
 package com.kkasztel.utils.trampoline;
 
 import java.util.function.Supplier;
-import java.util.stream.Stream;
 
 import lombok.Value;
+
+import static java.util.stream.Stream.iterate;
 
 @Value(staticConstructor = "of")
 class Suspend<T> implements TailCall<T> {
@@ -22,7 +23,7 @@ class Suspend<T> implements TailCall<T> {
 
     @Override
     public T eval() {
-        return Stream.iterate((TailCall<T>) this, TailCall::next)
+        return iterate((TailCall<T>) this, TailCall::next)
                 .filter(TailCall::isComplete)
                 .findFirst()
                 .orElseThrow(IllegalStateException::new)

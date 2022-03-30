@@ -1,5 +1,6 @@
 package com.kkasztel.utils.datetime.parser;
 
+import lombok.Value;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -9,11 +10,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import lombok.Value;
-
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LocalDateTimePatternRecognizerTest {
@@ -60,7 +61,7 @@ class LocalDateTimePatternRecognizerTest {
     private static <T> List<T> concat(List<T> a, List<T> b) {
         return Stream.of(a, b)
                 .flatMap(Collection::stream)
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     private static Stream<Arguments> provide(final List<Entry> entries) {
@@ -103,23 +104,21 @@ class LocalDateTimePatternRecognizerTest {
         return list;
     }
 
+    private static List<String> separators() {
+        return asList("", "_", " ", ".", "-", "/", "T");
+    }
+
     private static List<Entry> dateTimes() {
         final List<Entry> dateEntries = dates();
         final List<Entry> timeEntries = times();
-        final List<Entry> list = new ArrayList<>();
-        for (Entry d : dateEntries) {
-            for (Entry t : timeEntries) {
-                list.add(Entry.combine(d, t, ""));
-                list.add(Entry.combine(d, t, "_"));
-                list.add(Entry.combine(d, t, " "));
-                list.add(Entry.combine(d, t, "."));
-                list.add(Entry.combine(d, t, "-"));
-                list.add(Entry.combine(d, t, "/"));
-                list.add(Entry.combine(d, t, "T"));
-                list.add(Entry.combine(d, t, ""));
-            }
-        }
-        return list;
+        final List<String> separators = separators();
+        return dateEntries.stream()
+                .flatMap(d -> timeEntries.stream()
+                        .flatMap(t -> separators.stream()
+                                .map(s -> Entry.combine(d, t, s))
+                        )
+                )
+                .collect(toList());
     }
 
     @Value(staticConstructor = "of")

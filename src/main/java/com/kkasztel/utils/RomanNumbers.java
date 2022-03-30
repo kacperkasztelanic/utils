@@ -1,6 +1,5 @@
 package com.kkasztel.utils;
 
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -9,6 +8,7 @@ import java.util.stream.Collectors;
 
 import lombok.NoArgsConstructor;
 
+import static java.util.Collections.unmodifiableMap;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
@@ -76,7 +76,7 @@ public final class RomanNumbers {
         map.put("V", 5);
         map.put("IV", 4);
         map.put("I", 1);
-        return Collections.unmodifiableMap(map);
+        return unmodifiableMap(map);
     }
 
     private static Map<Integer, String> toRomanMap() {
@@ -87,6 +87,6 @@ public final class RomanNumbers {
                         (a, b) -> a,
                         LinkedHashMap::new
                 ));
-        return Collections.unmodifiableMap(map);
+        return unmodifiableMap(map);
     }
 }

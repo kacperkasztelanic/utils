@@ -1,6 +1,10 @@
 package com.kkasztel.utils.datetime.parser;
 
 import com.kkasztel.utils.CachedSupplier;
+import com.kkasztel.utils.tuple.Pair;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+import lombok.Value;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -10,12 +14,11 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
-import lombok.Value;
+import static java.util.Collections.unmodifiableList;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toList;
 
 public class LocalDateTimePatternRecognizer {
 
@@ -61,7 +64,7 @@ public class LocalDateTimePatternRecognizer {
     private static <T> List<T> concat(List<T> a, List<T> b) {
         return Stream.of(a, b)
                 .flatMap(Collection::stream)
-                .collect(Collectors.collectingAndThen(Collectors.toList(), Collections::unmodifiableList));
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     private List<Entry> timePatterns() {
@@ -83,7 +86,7 @@ public class LocalDateTimePatternRecognizer {
         list.add(Entry.of("\\d{2}/\\d{2}/\\d{2}\\.\\d{3}", "HH/mm/ss.SSS"));
         list.add(Entry.of("\\d{2}\\.\\d{2}\\.\\d{2}\\.\\d{3}", "HH.mm.ss.SSS"));
         list.add(Entry.of("\\d{2}\\s\\d{2}\\s\\d{2}\\.\\d{3}", "HH mm ss.SSS"));
-        return Collections.unmodifiableList(list);
+        return unmodifiableList(list);
     }
 
     private List<Entry> datePatterns() {
@@ -97,26 +100,32 @@ public class LocalDateTimePatternRecognizer {
         list.add(Entry.of("\\d{1,2}/\\d{1,2}/\\d{4}", "dd/MM/yyyy", "MM/dd/yyyy"));
         list.add(Entry.of("\\d{1,2}\\.\\d{1,2}\\.\\d{4}", "dd.MM.yyyy", "MM.dd.yyyy"));
         list.add(Entry.of("\\d{1,2}\\s\\d{1,2}\\s\\d{4}", "dd MM yyyy", "MM dd yyyy"));
-        return Collections.unmodifiableList(list);
+        return unmodifiableList(list);
+    }
+
+    private List<Pair<String, String>> separatorPatterns() {
+        final List<Pair<String, String>> list = new ArrayList<>();
+        list.add(Pair.of("", ""));
+        list.add(Pair.of("_", "_"));
+        list.add(Pair.of("\\s", " "));
+        list.add(Pair.of("\\.", "."));
+        list.add(Pair.of("-", "-"));
+        list.add(Pair.of("/", "/"));
+        list.add(Pair.of("T", "T"));
+        return unmodifiableList(list);
     }
 
     private List<Entry> dateTimePatterns() {
         final List<Entry> dates = datePatterns();
         final List<Entry> times = timePatterns();
-        final List<Entry> list = new ArrayList<>();
-        for (Entry d : dates) {
-            for (Entry t : times) {
-                list.add(Entry.combine(d, t, "", ""));
-                list.add(Entry.combine(d, t, "_", "_"));
-                list.add(Entry.combine(d, t, "\\s", " "));
-                list.add(Entry.combine(d, t, "\\.", "."));
-                list.add(Entry.combine(d, t, "-", "-"));
-                list.add(Entry.combine(d, t, "/", "/"));
-                list.add(Entry.combine(d, t, "T", "T"));
-                list.add(Entry.combine(d, t, "", ""));
-            }
-        }
-        return Collections.unmodifiableList(list);
+        final List<Pair<String, String>> separators = separatorPatterns();
+        return dates.stream()
+                .flatMap(d -> times.stream()
+                        .flatMap(t -> separators.stream()
+                                .map(s -> Entry.combine(d, t, s.getLeft(), s.getRight()))
+                        )
+                )
+                .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     private String getPattern(final Entry entry) {
