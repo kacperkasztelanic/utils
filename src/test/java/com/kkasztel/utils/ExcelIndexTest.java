@@ -39,13 +39,13 @@ class ExcelIndexTest {
 
     @SuppressWarnings("unused")
     private static Stream<Arguments> provideData() {
-        return Stream.of(//
-                Arguments.of("A", 1),//
-                Arguments.of("B", 2),//
-                Arguments.of("AF", 32),//
-                Arguments.of("DT", 124),//
-                Arguments.of("AMJ", 1024),//
-                Arguments.of(" AMJ ", 1024)//
+        return Stream.of(
+                Arguments.of("A", 1),
+                Arguments.of("B", 2),
+                Arguments.of("AF", 32),
+                Arguments.of("DT", 124),
+                Arguments.of("AMJ", 1024),
+                Arguments.of(" AMJ ", 1024)
         );
     }
 }
