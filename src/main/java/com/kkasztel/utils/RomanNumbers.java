@@ -4,11 +4,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
+import com.kkasztel.utils.tuple.Pair;
 import lombok.NoArgsConstructor;
 
 import static java.util.Collections.unmodifiableMap;
+import static java.util.stream.Collectors.toMap;
 import static lombok.AccessLevel.PRIVATE;
 
 @NoArgsConstructor(access = PRIVATE)
@@ -25,10 +26,10 @@ public final class RomanNumbers {
         final StringBuilder res = new StringBuilder();
         int n = number;
         while (n > 0) {
-            final Optional<Map.Entry<Integer, String>> maybeRoman = findRoman(n);
-            final String part = maybeRoman.map(Map.Entry::getValue).orElse("");
+            final Optional<Pair<Integer, String>> maybeRoman = findRoman(n);
+            final String part = maybeRoman.map(Pair::getRight).orElse("");
             final int m = n;
-            n = maybeRoman.map(Map.Entry::getKey).map(k -> m - k).orElse(n);
+            n = maybeRoman.map(Pair::getLeft).map(k -> m - k).orElse(n);
             res.append(part);
         }
         return res.toString();
@@ -55,10 +56,11 @@ public final class RomanNumbers {
         return res;
     }
 
-    private static Optional<Map.Entry<Integer, String>> findRoman(final int number) {
+    private static Optional<Pair<Integer, String>> findRoman(final int number) {
         return TO_ROMAN_MAP.entrySet().stream()
                 .filter(e -> number - e.getKey() >= 0)
-                .findFirst();
+                .findFirst()
+                .map(Pair::of);
     }
 
     private static Map<String, Integer> fromRomanMap() {
@@ -81,7 +83,7 @@ public final class RomanNumbers {
 
     private static Map<Integer, String> toRomanMap() {
         final Map<Integer, String> map = fromRomanMap().entrySet().stream()
-                .collect(Collectors.toMap(
+                .collect(toMap(
                         Map.Entry::getValue,
                         Map.Entry::getKey,
                         (a, b) -> a,

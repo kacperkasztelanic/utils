@@ -6,6 +6,8 @@ import java.util.function.Function;
 
 import lombok.RequiredArgsConstructor;
 
+import static com.kkasztel.utils.Optionals.maybe;
+import static com.kkasztel.utils.Optionals.none;
 import static com.kkasztel.utils.io.Unit.Unit;
 import static java.util.stream.StreamSupport.stream;
 import static lombok.AccessLevel.PRIVATE;
@@ -21,9 +23,9 @@ public class IO<T> {
 
     public Optional<T> safeRun() {
         try {
-            return Optional.of(effect.run());
+            return maybe(effect.run());
         } catch (Exception e) {
-            return Optional.empty();
+            return none();
         }
     }
 

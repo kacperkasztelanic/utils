@@ -11,7 +11,15 @@ import static lombok.AccessLevel.PRIVATE;
 
 @SuppressWarnings("all")
 @NoArgsConstructor(access = PRIVATE)
-public final class OptionalUtil {
+public final class Optionals {
+
+    public static <T> Optional<T> maybe(T value) {
+        return Optional.ofNullable(value);
+    }
+
+    public static <T> Optional<T> none() {
+        return Optional.empty();
+    }
 
     public static <T> void ifPresentOrElse(final Optional<T> optional,
                                            final Consumer<T> consumer,
