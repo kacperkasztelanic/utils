@@ -7,7 +7,7 @@ import lombok.Value;
 import static java.util.stream.Stream.iterate;
 
 @Value(staticConstructor = "of")
-class Suspend<T> implements TailCall<T> {
+public class Suspend<T> implements TailCall<T> {
 
     Supplier<TailCall<T>> thunk;
 

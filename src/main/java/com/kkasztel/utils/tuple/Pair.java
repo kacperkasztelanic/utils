@@ -12,11 +12,11 @@ public class Pair<L, R> {
     L left;
     R right;
 
-    public static <L, R> Pair<L, R> of(Pair<? extends L, ? extends R> pair) {
+    public static <L, R> Pair<L, R> of(final Pair<? extends L, ? extends R> pair) {
         return of(pair.getLeft(), pair.getRight());
     }
 
-    public static <L, R> Pair<L, R> of(Map.Entry<? extends L, ? extends R> entry) {
+    public static <L, R> Pair<L, R> of(final Map.Entry<? extends L, ? extends R> entry) {
         return of(entry.getKey(), entry.getValue());
     }
 

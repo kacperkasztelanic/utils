@@ -16,7 +16,7 @@ public class DateToZonedDateTimeConverter implements Converter<Date, ZonedDateTi
     }
 
     @Override
-    public ZonedDateTime convert(Date source) {
+    public ZonedDateTime convert(final Date source) {
         return source == null ? null : ZonedDateTime.ofInstant(source.toInstant(), zoneId);
     }
 }

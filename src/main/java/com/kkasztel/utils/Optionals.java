@@ -13,8 +13,12 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public final class Optionals {
 
-    public static <T> Optional<T> maybe(T value) {
+    public static <T> Optional<T> maybe(final T value) {
         return Optional.ofNullable(value);
+    }
+
+    public static <T> Optional<T> some(final T value) {
+        return Optional.of(value);
     }
 
     public static <T> Optional<T> none() {

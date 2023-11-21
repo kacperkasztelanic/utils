@@ -5,17 +5,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
+import static com.kkasztel.utils.Optionals.some;
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class LocalDateTimePatternRecognizerTest {
 
@@ -25,22 +25,22 @@ class LocalDateTimePatternRecognizerTest {
     @ParameterizedTest
     @MethodSource("provideDates")
     void recognizesDatePattern(final String input, final String expectedDmy, final String expectedMdy) {
-        assertEquals(Optional.of(expectedDmy), dmy.recognizeDatePattern(input));
-        assertEquals(Optional.of(expectedMdy), mdy.recognizeDatePattern(input));
+        assertEquals(some(expectedDmy), dmy.recognizeDatePattern(input));
+        assertEquals(some(expectedMdy), mdy.recognizeDatePattern(input));
     }
 
     @ParameterizedTest
     @MethodSource("provideTimes")
     void recognizesTimePattern(final String input, final String expectedDmy, final String expectedMdy) {
-        assertEquals(Optional.of(expectedDmy), dmy.recognizeTimePattern(input));
-        assertEquals(Optional.of(expectedMdy), mdy.recognizeTimePattern(input));
+        assertEquals(some(expectedDmy), dmy.recognizeTimePattern(input));
+        assertEquals(some(expectedMdy), mdy.recognizeTimePattern(input));
     }
 
     @ParameterizedTest
     @MethodSource("provideDateTimes")
     void recognizesDateTimePattern(final String input, final String expectedDmy, final String expectedMdy) {
-        assertEquals(Optional.of(expectedDmy), dmy.recognizeDateTimePattern(input));
-        assertEquals(Optional.of(expectedMdy), mdy.recognizeDateTimePattern(input));
+        assertEquals(some(expectedDmy), dmy.recognizeDateTimePattern(input));
+        assertEquals(some(expectedMdy), mdy.recognizeDateTimePattern(input));
     }
 
     @SuppressWarnings("unused")
@@ -58,50 +58,50 @@ class LocalDateTimePatternRecognizerTest {
         return provide(dateTimes());
     }
 
-    private static <T> List<T> concat(List<T> a, List<T> b) {
+    private static <T> List<T> concat(final List<T> a, final List<T> b) {
         return Stream.of(a, b)
                 .flatMap(Collection::stream)
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     private static Stream<Arguments> provide(final List<Entry> entries) {
-        return entries.stream().map(e -> Arguments.of(e.getInput(), e.getDmyPattern(), e.getMdyPattern()));
+        return entries.stream().map(e -> arguments(e.getInput(), e.getDmyPattern(), e.getMdyPattern()));
     }
 
     private static List<Entry> dates() {
-        final List<Entry> list = new ArrayList<>();
-        list.add(Entry.of("20200101", "yyyyMMdd", "yyyyMMdd"));
-        list.add(Entry.of("2020-01-01", "yyyy-MM-dd", "yyyy-dd-MM"));
-        list.add(Entry.of("2020/01/01", "yyyy/MM/dd", "yyyy/dd/MM"));
-        list.add(Entry.of("2020.01.01", "yyyy.MM.dd", "yyyy.dd.MM"));
-        list.add(Entry.of("2020 01 01", "yyyy MM dd", "yyyy dd MM"));
-        list.add(Entry.of("01-01-2020", "dd-MM-yyyy", "MM-dd-yyyy"));
-        list.add(Entry.of("01/01/2020", "dd/MM/yyyy", "MM/dd/yyyy"));
-        list.add(Entry.of("01.01.2020", "dd.MM.yyyy", "MM.dd.yyyy"));
-        list.add(Entry.of("01 01 2020", "dd MM yyyy", "MM dd yyyy"));
-        return list;
+        return asList(
+                Entry.of("20200101", "yyyyMMdd", "yyyyMMdd"),
+                Entry.of("2020-01-01", "yyyy-MM-dd", "yyyy-dd-MM"),
+                Entry.of("2020/01/01", "yyyy/MM/dd", "yyyy/dd/MM"),
+                Entry.of("2020.01.01", "yyyy.MM.dd", "yyyy.dd.MM"),
+                Entry.of("2020 01 01", "yyyy MM dd", "yyyy dd MM"),
+                Entry.of("01-01-2020", "dd-MM-yyyy", "MM-dd-yyyy"),
+                Entry.of("01/01/2020", "dd/MM/yyyy", "MM/dd/yyyy"),
+                Entry.of("01.01.2020", "dd.MM.yyyy", "MM.dd.yyyy"),
+                Entry.of("01 01 2020", "dd MM yyyy", "MM dd yyyy")
+        );
     }
 
     private static List<Entry> times() {
-        final List<Entry> list = new ArrayList<>();
-        list.add(Entry.of("1112", "HHmm"));
-        list.add(Entry.of("11:12", "HH:mm"));
-        list.add(Entry.of("11-12", "HH-mm"));
-        list.add(Entry.of("11/12", "HH/mm"));
-        list.add(Entry.of("11.12", "HH.mm"));
-        list.add(Entry.of("11 12", "HH mm"));
-        list.add(Entry.of("111210", "HHmmss"));
-        list.add(Entry.of("11:12:10", "HH:mm:ss"));
-        list.add(Entry.of("11-12-10", "HH-mm-ss"));
-        list.add(Entry.of("11/12/10", "HH/mm/ss"));
-        list.add(Entry.of("11.12.10", "HH.mm.ss"));
-        list.add(Entry.of("11 12 10", "HH mm ss"));
-        list.add(Entry.of("11:12:10.123", "HH:mm:ss.SSS"));
-        list.add(Entry.of("11-12-10.123", "HH-mm-ss.SSS"));
-        list.add(Entry.of("11/12/10.123", "HH/mm/ss.SSS"));
-        list.add(Entry.of("11.12.10.123", "HH.mm.ss.SSS"));
-        list.add(Entry.of("11 12 10.123", "HH mm ss.SSS"));
-        return list;
+        return asList(
+                Entry.of("1112", "HHmm"),
+                Entry.of("11:12", "HH:mm"),
+                Entry.of("11-12", "HH-mm"),
+                Entry.of("11/12", "HH/mm"),
+                Entry.of("11.12", "HH.mm"),
+                Entry.of("11 12", "HH mm"),
+                Entry.of("111210", "HHmmss"),
+                Entry.of("11:12:10", "HH:mm:ss"),
+                Entry.of("11-12-10", "HH-mm-ss"),
+                Entry.of("11/12/10", "HH/mm/ss"),
+                Entry.of("11.12.10", "HH.mm.ss"),
+                Entry.of("11 12 10", "HH mm ss"),
+                Entry.of("11:12:10.123", "HH:mm:ss.SSS"),
+                Entry.of("11-12-10.123", "HH-mm-ss.SSS"),
+                Entry.of("11/12/10.123", "HH/mm/ss.SSS"),
+                Entry.of("11.12.10.123", "HH.mm.ss.SSS"),
+                Entry.of("11 12 10.123", "HH mm ss.SSS")
+        );
     }
 
     private static List<String> separators() {
@@ -128,11 +128,11 @@ class LocalDateTimePatternRecognizerTest {
         String dmyPattern;
         String mdyPattern;
 
-        public static Entry of(String input, String dmyPattern) {
+        public static Entry of(final String input, final String dmyPattern) {
             return new Entry(input, dmyPattern, dmyPattern);
         }
 
-        public static Entry combine(Entry a, Entry b, String pattern) {
+        public static Entry combine(final Entry a, final Entry b, final String pattern) {
             return new Entry(
                     a.getInput() + pattern + b.getInput(),
                     a.getDmyPattern() + pattern + b.getDmyPattern(),

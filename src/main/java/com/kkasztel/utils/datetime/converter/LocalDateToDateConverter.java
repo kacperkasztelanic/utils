@@ -16,7 +16,7 @@ public class LocalDateToDateConverter implements Converter<LocalDate, Date> {
     }
 
     @Override
-    public Date convert(LocalDate source) {
+    public Date convert(final LocalDate source) {
         return source == null ? null : Date.from(source.atStartOfDay(zoneId).toInstant());
     }
 }

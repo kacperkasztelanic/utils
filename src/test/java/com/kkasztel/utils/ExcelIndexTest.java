@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 class ExcelIndexTest {
 
@@ -40,12 +41,12 @@ class ExcelIndexTest {
     @SuppressWarnings("unused")
     private static Stream<Arguments> provideData() {
         return Stream.of(
-                Arguments.of("A", 1),
-                Arguments.of("B", 2),
-                Arguments.of("AF", 32),
-                Arguments.of("DT", 124),
-                Arguments.of("AMJ", 1024),
-                Arguments.of(" AMJ ", 1024)
+                arguments("A", 1),
+                arguments("B", 2),
+                arguments("AF", 32),
+                arguments("DT", 124),
+                arguments("AMJ", 1024),
+                arguments(" AMJ ", 1024)
         );
     }
 }

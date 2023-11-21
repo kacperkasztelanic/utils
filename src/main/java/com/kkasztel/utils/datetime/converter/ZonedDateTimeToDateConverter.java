@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 public class ZonedDateTimeToDateConverter implements Converter<ZonedDateTime, Date> {
 
     @Override
-    public Date convert(ZonedDateTime source) {
+    public Date convert(final ZonedDateTime source) {
         return source == null ? null : Date.from(source.toInstant());
     }
 }

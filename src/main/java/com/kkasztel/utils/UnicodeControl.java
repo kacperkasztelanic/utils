@@ -26,7 +26,7 @@ public class UnicodeControl extends Control {
         if (format.equals("java.class")) {
             return super.newBundle(baseName, locale, format, loader, reload);
         }
-        else if (format.equals("java.properties")) {
+        if (format.equals("java.properties")) {
             if (bundleName.contains("://")) {
                 return null;
             }

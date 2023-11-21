@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public class DurationToLongConverter implements Converter<Duration, Long> {
 
     @Override
-    public Long convert(Duration source) {
+    public Long convert(final Duration source) {
         return source == null ? null : source.toNanos();
     }
 }

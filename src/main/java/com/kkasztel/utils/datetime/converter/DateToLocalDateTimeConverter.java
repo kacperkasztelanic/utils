@@ -17,7 +17,7 @@ public class DateToLocalDateTimeConverter implements Converter<Date, LocalDateTi
     }
 
     @Override
-    public LocalDateTime convert(Date source) {
+    public LocalDateTime convert(final Date source) {
         return source == null ? null : ZonedDateTime.ofInstant(source.toInstant(), zoneId).toLocalDateTime();
     }
 }

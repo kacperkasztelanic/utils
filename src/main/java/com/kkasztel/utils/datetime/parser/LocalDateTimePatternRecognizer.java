@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import lombok.Value;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import static java.util.Collections.unmodifiableList;
+import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
@@ -35,7 +34,7 @@ public class LocalDateTimePatternRecognizer {
         return new LocalDateTimePatternRecognizer(true);
     }
 
-    private LocalDateTimePatternRecognizer(boolean monthFirst) {
+    private LocalDateTimePatternRecognizer(final boolean monthFirst) {
         this.monthFirst = monthFirst;
         this.dateTimePatterns = dateTimePatterns();
         this.timePatterns = concat(timePatterns(), this.dateTimePatterns);
@@ -61,58 +60,58 @@ public class LocalDateTimePatternRecognizer {
                 .map(this::getPattern);
     }
 
-    private static <T> List<T> concat(List<T> a, List<T> b) {
+    private static <T> List<T> concat(final List<T> a, final List<T> b) {
         return Stream.of(a, b)
                 .flatMap(Collection::stream)
                 .collect(collectingAndThen(toList(), Collections::unmodifiableList));
     }
 
     private List<Entry> timePatterns() {
-        final List<Entry> list = new ArrayList<>();
-        list.add(Entry.of("\\d{4}", "HHmm"));
-        list.add(Entry.of("\\d{2}:\\d{2}", "HH:mm"));
-        list.add(Entry.of("\\d{2}-\\d{2}", "HH-mm"));
-        list.add(Entry.of("\\d{2}/\\d{2}", "HH/mm"));
-        list.add(Entry.of("\\d{2}\\.\\d{2}", "HH.mm"));
-        list.add(Entry.of("\\d{2}\\s\\d{2}", "HH mm"));
-        list.add(Entry.of("\\d{6}", "HHmmss"));
-        list.add(Entry.of("\\d{2}:\\d{2}:\\d{2}", "HH:mm:ss"));
-        list.add(Entry.of("\\d{2}-\\d{2}-\\d{2}", "HH-mm-ss"));
-        list.add(Entry.of("\\d{2}/\\d{2}/\\d{2}", "HH/mm/ss"));
-        list.add(Entry.of("\\d{2}\\.\\d{2}\\.\\d{2}", "HH.mm.ss"));
-        list.add(Entry.of("\\d{2}\\s\\d{2}\\s\\d{2}", "HH mm ss"));
-        list.add(Entry.of("\\d{2}:\\d{2}:\\d{2}\\.\\d{3}", "HH:mm:ss.SSS"));
-        list.add(Entry.of("\\d{2}-\\d{2}-\\d{2}\\.\\d{3}", "HH-mm-ss.SSS"));
-        list.add(Entry.of("\\d{2}/\\d{2}/\\d{2}\\.\\d{3}", "HH/mm/ss.SSS"));
-        list.add(Entry.of("\\d{2}\\.\\d{2}\\.\\d{2}\\.\\d{3}", "HH.mm.ss.SSS"));
-        list.add(Entry.of("\\d{2}\\s\\d{2}\\s\\d{2}\\.\\d{3}", "HH mm ss.SSS"));
-        return unmodifiableList(list);
+        return asList(
+                Entry.of("\\d{4}", "HHmm"),
+                Entry.of("\\d{2}:\\d{2}", "HH:mm"),
+                Entry.of("\\d{2}-\\d{2}", "HH-mm"),
+                Entry.of("\\d{2}/\\d{2}", "HH/mm"),
+                Entry.of("\\d{2}\\.\\d{2}", "HH.mm"),
+                Entry.of("\\d{2}\\s\\d{2}", "HH mm"),
+                Entry.of("\\d{6}", "HHmmss"),
+                Entry.of("\\d{2}:\\d{2}:\\d{2}", "HH:mm:ss"),
+                Entry.of("\\d{2}-\\d{2}-\\d{2}", "HH-mm-ss"),
+                Entry.of("\\d{2}/\\d{2}/\\d{2}", "HH/mm/ss"),
+                Entry.of("\\d{2}\\.\\d{2}\\.\\d{2}", "HH.mm.ss"),
+                Entry.of("\\d{2}\\s\\d{2}\\s\\d{2}", "HH mm ss"),
+                Entry.of("\\d{2}:\\d{2}:\\d{2}\\.\\d{3}", "HH:mm:ss.SSS"),
+                Entry.of("\\d{2}-\\d{2}-\\d{2}\\.\\d{3}", "HH-mm-ss.SSS"),
+                Entry.of("\\d{2}/\\d{2}/\\d{2}\\.\\d{3}", "HH/mm/ss.SSS"),
+                Entry.of("\\d{2}\\.\\d{2}\\.\\d{2}\\.\\d{3}", "HH.mm.ss.SSS"),
+                Entry.of("\\d{2}\\s\\d{2}\\s\\d{2}\\.\\d{3}", "HH mm ss.SSS")
+        );
     }
 
     private List<Entry> datePatterns() {
-        final List<Entry> list = new ArrayList<>();
-        list.add(Entry.of("\\d{8}", "yyyyMMdd"));
-        list.add(Entry.of("\\d{4}-\\d{1,2}-\\d{1,2}", "yyyy-MM-dd", "yyyy-dd-MM"));
-        list.add(Entry.of("\\d{4}/\\d{1,2}/\\d{1,2}", "yyyy/MM/dd", "yyyy/dd/MM"));
-        list.add(Entry.of("\\d{4}\\.\\d{1,2}\\.\\d{1,2}", "yyyy.MM.dd", "yyyy.dd.MM"));
-        list.add(Entry.of("\\d{4}\\s\\d{1,2}\\s\\d{1,2}", "yyyy MM dd", "yyyy dd MM"));
-        list.add(Entry.of("\\d{1,2}-\\d{1,2}-\\d{4}", "dd-MM-yyyy", "MM-dd-yyyy"));
-        list.add(Entry.of("\\d{1,2}/\\d{1,2}/\\d{4}", "dd/MM/yyyy", "MM/dd/yyyy"));
-        list.add(Entry.of("\\d{1,2}\\.\\d{1,2}\\.\\d{4}", "dd.MM.yyyy", "MM.dd.yyyy"));
-        list.add(Entry.of("\\d{1,2}\\s\\d{1,2}\\s\\d{4}", "dd MM yyyy", "MM dd yyyy"));
-        return unmodifiableList(list);
+        return asList(
+                Entry.of("\\d{8}", "yyyyMMdd"),
+                Entry.of("\\d{4}-\\d{1,2}-\\d{1,2}", "yyyy-MM-dd", "yyyy-dd-MM"),
+                Entry.of("\\d{4}/\\d{1,2}/\\d{1,2}", "yyyy/MM/dd", "yyyy/dd/MM"),
+                Entry.of("\\d{4}\\.\\d{1,2}\\.\\d{1,2}", "yyyy.MM.dd", "yyyy.dd.MM"),
+                Entry.of("\\d{4}\\s\\d{1,2}\\s\\d{1,2}", "yyyy MM dd", "yyyy dd MM"),
+                Entry.of("\\d{1,2}-\\d{1,2}-\\d{4}", "dd-MM-yyyy", "MM-dd-yyyy"),
+                Entry.of("\\d{1,2}/\\d{1,2}/\\d{4}", "dd/MM/yyyy", "MM/dd/yyyy"),
+                Entry.of("\\d{1,2}\\.\\d{1,2}\\.\\d{4}", "dd.MM.yyyy", "MM.dd.yyyy"),
+                Entry.of("\\d{1,2}\\s\\d{1,2}\\s\\d{4}", "dd MM yyyy", "MM dd yyyy")
+        );
     }
 
     private List<Pair<String, String>> separatorPatterns() {
-        final List<Pair<String, String>> list = new ArrayList<>();
-        list.add(Pair.of("", ""));
-        list.add(Pair.of("_", "_"));
-        list.add(Pair.of("\\s", " "));
-        list.add(Pair.of("\\.", "."));
-        list.add(Pair.of("-", "-"));
-        list.add(Pair.of("/", "/"));
-        list.add(Pair.of("T", "T"));
-        return unmodifiableList(list);
+        return asList(
+                Pair.of("", ""),
+                Pair.of("_", "_"),
+                Pair.of("\\s", " "),
+                Pair.of("\\.", "."),
+                Pair.of("-", "-"),
+                Pair.of("/", "/"),
+                Pair.of("T", "T")
+        );
     }
 
     private List<Entry> dateTimePatterns() {
@@ -142,15 +141,15 @@ public class LocalDateTimePatternRecognizer {
         String mdyPattern;
         Supplier<Pattern> pattern;
 
-        public static Entry of(String regex, String dmyPattern) {
+        public static Entry of(final String regex, final String dmyPattern) {
             return new Entry(regex, dmyPattern, dmyPattern);
         }
 
-        public static Entry of(String regex, String dmyPattern, String mdyPattern) {
+        public static Entry of(final String regex, final String dmyPattern, final String mdyPattern) {
             return new Entry(regex, dmyPattern, mdyPattern);
         }
 
-        private Entry(String regex, String dmyPattern, String mdyPattern) {
+        private Entry(final String regex, final String dmyPattern, final String mdyPattern) {
             this.regex = regex;
             this.dmyPattern = dmyPattern;
             this.mdyPattern = mdyPattern;
@@ -161,7 +160,7 @@ public class LocalDateTimePatternRecognizer {
             return pattern.get().matcher(sequence);
         }
 
-        public static Entry combine(Entry a, Entry b, String regex, String pattern) {
+        public static Entry combine(final Entry a, final Entry b, final String regex, final String pattern) {
             return new Entry(
                     a.getRegex() + regex + b.getRegex(),
                     a.getDmyPattern() + pattern + b.getDmyPattern(),

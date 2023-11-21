@@ -1,14 +1,16 @@
 package com.kkasztel.utils;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import com.kkasztel.utils.tuple.Pair;
 import lombok.NoArgsConstructor;
 
-import static java.util.Collections.unmodifiableMap;
+import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toMap;
 import static lombok.AccessLevel.PRIVATE;
 
@@ -64,31 +66,41 @@ public final class RomanNumbers {
     }
 
     private static Map<String, Integer> fromRomanMap() {
-        final Map<String, Integer> map = new LinkedHashMap<>();
-        map.put("M", 1000);
-        map.put("CM", 900);
-        map.put("D", 500);
-        map.put("CD", 400);
-        map.put("C", 100);
-        map.put("XC", 90);
-        map.put("L", 50);
-        map.put("XL", 40);
-        map.put("X", 10);
-        map.put("IX", 9);
-        map.put("V", 5);
-        map.put("IV", 4);
-        map.put("I", 1);
-        return unmodifiableMap(map);
+        return Stream.of(
+                Pair.of("M", 1000),
+                Pair.of("CM", 900),
+                Pair.of("D", 500),
+                Pair.of("CD", 400),
+                Pair.of("C", 100),
+                Pair.of("XC", 90),
+                Pair.of("L", 50),
+                Pair.of("XL", 40),
+                Pair.of("X", 10),
+                Pair.of("IX", 9),
+                Pair.of("V", 5),
+                Pair.of("IV", 4),
+                Pair.of("I", 1)
+        ).collect(collectingAndThen(
+                toMap(
+                        Pair::getLeft,
+                        Pair::getRight,
+                        (a, b) -> a,
+                        LinkedHashMap::new
+                ),
+                Collections::unmodifiableMap
+        ));
     }
 
     private static Map<Integer, String> toRomanMap() {
-        final Map<Integer, String> map = fromRomanMap().entrySet().stream()
-                .collect(toMap(
-                        Map.Entry::getValue,
-                        Map.Entry::getKey,
-                        (a, b) -> a,
-                        LinkedHashMap::new
+        return fromRomanMap().entrySet().stream()
+                .collect(collectingAndThen(
+                        toMap(
+                                Map.Entry::getValue,
+                                Map.Entry::getKey,
+                                (a, b) -> a,
+                                LinkedHashMap::new
+                        ),
+                        Collections::unmodifiableMap
                 ));
-        return unmodifiableMap(map);
     }
 }
