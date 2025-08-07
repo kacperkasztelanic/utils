@@ -1,0 +1,105 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'jacoco'
+}
+
+group = 'com.kkasztel'
+version = '0.7.0-SNAPSHOT'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(8)
+    }
+    withSourcesJar()
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    lombokVersion = '1.18.38'
+    junitVersion = '5.13.4'
+}
+
+dependencies {
+    // Lombok
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
+    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
+
+    // JUnit 5
+    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+    reports {
+        html.required = true
+        junitXml.required = true
+    }
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+    }
+    classDirectories.setFrom files(classDirectories.files.collect {
+        fileTree(dir: it, exclude: ['**/generated/**'])
+    })
+    executionData.setFrom fileTree(buildDir).include("**/jacoco/test.exec")
+}
+
+// === Publishing to GitHub Packages ===
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+
+            pom {
+                name = 'utils'
+                description = 'Utility library by kacperkasztelanic'
+                url = 'https://github.com/kacperkasztelanic/utils'
+
+                licenses {
+                    license {
+                        name = 'MIT License'
+                        url = 'https://opensource.org/licenses/MIT'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'kacperkasztelanic'
+                        name = 'Kacper Kasztelanic'
+                    }
+                }
+
+                scm {
+                    connection = 'scm:git:git://github.com/kacperkasztelanic/utils.git'
+                    developerConnection = 'scm:git:ssh://github.com:kacperkasztelanic/utils.git'
+                    url = 'https://github.com/kacperkasztelanic/utils'
+                }
+            }
+        }
+    }
+
+    repositories {
+        maven {
+            name = 'GitHubPackages'
+            url = uri('https://maven.pkg.github.com/kacperkasztelanic/utils')
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
