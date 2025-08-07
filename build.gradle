@@ -1,7 +1,10 @@
 plugins {
     id 'java-library'
     id 'maven-publish'
+    id 'signing'
     id 'jacoco'
+    id 'com.adarshr.test-logger' version '4.0.0'
+    id 'io.freefair.lombok' version '8.14'
 }
 
 group = 'com.kkasztel'
@@ -9,7 +12,7 @@ version = '0.7.0-SNAPSHOT'
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(8)
+        languageVersion = JavaLanguageVersion.of(21)
     }
     withSourcesJar()
 }
@@ -19,19 +22,15 @@ repositories {
 }
 
 ext {
-    lombokVersion = '1.18.38'
     junitVersion = '5.13.4'
+    junitLauncherVersion = '1.13.4'
 }
 
 dependencies {
-    // Lombok
-    compileOnly "org.projectlombok:lombok:$lombokVersion"
-    annotationProcessor "org.projectlombok:lombok:$lombokVersion"
-
-    // JUnit 5
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-params:$junitVersion"
+    testImplementation "org.junit.platform:junit-platform-launcher:$junitLauncherVersion"
 }
 
 test {
@@ -54,15 +53,13 @@ jacocoTestReport {
     classDirectories.setFrom files(classDirectories.files.collect {
         fileTree(dir: it, exclude: ['**/generated/**'])
     })
-    executionData.setFrom fileTree(buildDir).include("**/jacoco/test.exec")
+    executionData.setFrom fileTree(layout.buildDirectory).include("**/jacoco/test.exec")
 }
 
-// === Publishing to GitHub Packages ===
 publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            artifact sourcesJar
 
             pom {
                 name = 'utils'
@@ -101,5 +98,12 @@ publishing {
                 password = System.getenv("GITHUB_TOKEN")
             }
         }
+    }
+}
+
+if (project.findProperty("signing") == "true") {
+    signing {
+        useGpgCmd()
+        sign publishing.publications.mavenJava
     }
 }
