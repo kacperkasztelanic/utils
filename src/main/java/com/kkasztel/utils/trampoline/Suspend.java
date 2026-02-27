@@ -6,6 +6,11 @@ import lombok.Value;
 
 import static java.util.stream.Stream.iterate;
 
+/**
+ * Suspended trampoline step that defers the next computation.
+ *
+ * @param <T> the result type
+ */
 @Value(staticConstructor = "of")
 public class Suspend<T> implements TailCall<T> {
 

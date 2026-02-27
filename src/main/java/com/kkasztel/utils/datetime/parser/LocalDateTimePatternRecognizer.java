@@ -19,6 +19,10 @@ import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
+/**
+ * Recognizes date/time format patterns from input strings using regex matching.
+ * Supports both DMY and MDY date orderings.
+ */
 public class LocalDateTimePatternRecognizer {
 
     private final boolean monthFirst;

@@ -12,6 +12,11 @@ import static com.kkasztel.utils.io.Unit.Unit;
 import static java.util.stream.StreamSupport.stream;
 import static lombok.AccessLevel.PRIVATE;
 
+/**
+ * A simple IO monad for deferring and composing side-effectful computations.
+ *
+ * @param <T> the type of the result
+ */
 @RequiredArgsConstructor(access = PRIVATE)
 public class IO<T> {
 

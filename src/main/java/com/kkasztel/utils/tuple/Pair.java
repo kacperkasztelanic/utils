@@ -5,6 +5,12 @@ import lombok.Value;
 
 import java.util.Map;
 
+/**
+ * An immutable pair (2-tuple) of two values.
+ *
+ * @param <L> the type of the left (first) element
+ * @param <R> the type of the right (second) element
+ */
 @Value(staticConstructor = "of")
 @ToString(includeFieldNames = false)
 public class Pair<L, R> {

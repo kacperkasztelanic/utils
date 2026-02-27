@@ -2,6 +2,11 @@ package com.kkasztel.utils.trampoline;
 
 import java.util.function.Supplier;
 
+/**
+ * Trampoline interface for stack-safe recursive computations.
+ *
+ * @param <T> the result type
+ */
 public interface TailCall<T> {
 
     boolean isComplete();

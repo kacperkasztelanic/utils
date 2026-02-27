@@ -6,13 +6,16 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.net.URLConnection;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 import java.util.ResourceBundle.Control;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
+/**
+ * A {@link ResourceBundle.Control} that loads {@code .properties} files as UTF-8
+ * instead of the default ISO-8859-1 encoding.
+ */
 public class UnicodeControl extends Control {
 
     @Override

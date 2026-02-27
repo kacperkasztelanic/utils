@@ -11,15 +11,21 @@ import java.util.stream.Collector;
 import static java.util.Objects.requireNonNull;
 import static lombok.AccessLevel.PRIVATE;
 
+/**
+ * Additional {@link Collector} implementations, primarily for collecting into {@link LinkedHashMap}s
+ * that preserve insertion order.
+ */
 @NoArgsConstructor(access = PRIVATE)
 public final class MoreCollectors {
 
+    /** Collects elements into a {@link LinkedHashMap} using the given key and value mappers. Throws on duplicate keys. */
     public static <T, K, V> Collector<T, ?, LinkedHashMap<K, V>> toLinkedMap(
             final Function<? super T, ? extends K> keyMapper,
             final Function<? super T, ? extends V> valueMapper) {
         return toLinkedMap(keyMapper, valueMapper, throwingMerger());
     }
 
+    /** Collects elements into a {@link LinkedHashMap} with a custom merge function for duplicate keys. */
     public static <T, K, V> Collector<T, ?, LinkedHashMap<K, V>> toLinkedMap(
             final Function<? super T, ? extends K> keyMapper,
             final Function<? super T, ? extends V> valueMapper,
@@ -44,6 +50,7 @@ public final class MoreCollectors {
         );
     }
 
+    /** Collects {@link Map.Entry} elements into a {@link LinkedHashMap}. Throws on duplicate keys. */
     public static <K, V> Collector<Map.Entry<K, V>, ?, LinkedHashMap<K, V>> toLinkedMap() {
         return toLinkedMap(Map.Entry::getKey, Map.Entry::getValue);
     }

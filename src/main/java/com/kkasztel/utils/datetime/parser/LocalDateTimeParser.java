@@ -10,6 +10,10 @@ import lombok.RequiredArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
 
+/**
+ * Parses date, time, and date-time strings by auto-detecting their format pattern.
+ * Supports day-month-year (DMY) and month-day-year (MDY) conventions.
+ */
 @RequiredArgsConstructor(access = PRIVATE)
 public class LocalDateTimeParser {
 

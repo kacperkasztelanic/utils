@@ -14,6 +14,9 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toMap;
 import static lombok.AccessLevel.PRIVATE;
 
+/**
+ * Converts between Arabic (decimal) and Roman numeral representations.
+ */
 @NoArgsConstructor(access = PRIVATE)
 public final class RomanNumbers {
 
@@ -21,6 +24,13 @@ public final class RomanNumbers {
     private static final Map<Integer, String> TO_ROMAN_MAP = toRomanMap();
     private static final Pattern ROMAN_PATTERN = Pattern.compile("[IVXLCDM]+");
 
+    /**
+     * Converts an Arabic number to its Roman numeral representation.
+     *
+     * @param number a non-negative integer
+     * @return the Roman numeral string (empty string for 0)
+     * @throws IllegalArgumentException if number is negative
+     */
     public static String toRoman(final int number) {
         if (number < 0) {
             throw new IllegalArgumentException(String.valueOf(number));
@@ -37,6 +47,13 @@ public final class RomanNumbers {
         return res.toString();
     }
 
+    /**
+     * Converts a Roman numeral string to its Arabic (decimal) value.
+     *
+     * @param number the Roman numeral string (case-insensitive, may have leading/trailing whitespace)
+     * @return the decimal value (0 for empty string)
+     * @throws IllegalArgumentException if the input is null or contains non-Roman characters
+     */
     public static int fromRoman(final String number) {
         final String normalized = number != null ? number.trim().toUpperCase() : "-";
         if (!normalized.isEmpty() && !ROMAN_PATTERN.matcher(normalized).matches()) {
