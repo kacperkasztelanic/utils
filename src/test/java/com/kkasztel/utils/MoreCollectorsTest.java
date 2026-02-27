@@ -2,17 +2,17 @@ package com.kkasztel.utils;
 
 import org.junit.jupiter.api.Test;
 
-import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
-import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MoreCollectorsTest {
 
@@ -22,7 +22,7 @@ class MoreCollectorsTest {
         final LinkedHashMap<String, Integer> result = input.stream()
                 .collect(MoreCollectors.toLinkedMap(s -> s, String::length));
 
-        assertEquals(asList("banana", "apple", "cherry"), result.keySet().stream().collect(toList()));
+        assertEquals(asList("banana", "apple", "cherry"), new ArrayList<>(result.keySet()));
         assertEquals(6, result.get("banana"));
         assertEquals(5, result.get("apple"));
         assertEquals(6, result.get("cherry"));
@@ -32,7 +32,8 @@ class MoreCollectorsTest {
     void toLinkedMapThrowsOnDuplicateKeysByDefault() {
         final List<String> input = asList("a", "a");
         assertThrows(IllegalStateException.class,
-                () -> input.stream().collect(MoreCollectors.toLinkedMap(s -> s, String::length)));
+                () -> input.stream().collect(MoreCollectors.toLinkedMap(s -> s, String::length))
+        );
     }
 
     @Test
@@ -48,19 +49,19 @@ class MoreCollectorsTest {
     @Test
     void toLinkedMapFromEntries() {
         final Stream<Map.Entry<String, Integer>> entries = Stream.of(
-                new AbstractMap.SimpleEntry<>("x", 1),
-                new AbstractMap.SimpleEntry<>("y", 2)
+                new SimpleEntry<>("x", 1),
+                new SimpleEntry<>("y", 2)
         );
         final LinkedHashMap<String, Integer> result = entries.collect(MoreCollectors.toLinkedMap());
         assertEquals(1, result.get("x"));
         assertEquals(2, result.get("y"));
-        assertEquals(asList("x", "y"), result.keySet().stream().collect(toList()));
+        assertEquals(asList("x", "y"), new ArrayList<>(result.keySet()));
     }
 
     @Test
     void toLinkedMapResultIsLinkedHashMap() {
         final LinkedHashMap<String, Integer> result = Stream.of("a")
                 .collect(MoreCollectors.toLinkedMap(s -> s, String::length));
-        assertTrue(result instanceof LinkedHashMap);
+        assertNotNull(result);
     }
 }

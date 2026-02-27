@@ -26,7 +26,7 @@ class PredicatesTest {
 
     @Test
     void andCombinesPredicates() {
-        @SuppressWarnings("unchecked") final Predicate<Integer> positive = Predicates.and(n -> n > 0, n -> n < 100, n -> n % 2 == 0);
+        final Predicate<Integer> positive = Predicates.and(n -> n > 0, n -> n < 100, n -> n % 2 == 0);
         assertTrue(positive.test(10));
         assertFalse(positive.test(-1));
         assertFalse(positive.test(101));
@@ -35,13 +35,13 @@ class PredicatesTest {
 
     @Test
     void andWithNoPredicatesIsAlwaysTrue() {
-        @SuppressWarnings("unchecked") final Predicate<String> always = Predicates.and();
+        final Predicate<String> always = Predicates.and();
         assertTrue(always.test("anything"));
     }
 
     @Test
     void orCombinesPredicates() {
-        @SuppressWarnings("unchecked") final Predicate<String> predicate = Predicates.or(s -> s.startsWith("a"), s -> s.startsWith("b"));
+        final Predicate<String> predicate = Predicates.or(s -> s.startsWith("a"), s -> s.startsWith("b"));
         assertTrue(predicate.test("apple"));
         assertTrue(predicate.test("banana"));
         assertFalse(predicate.test("cherry"));
@@ -49,7 +49,7 @@ class PredicatesTest {
 
     @Test
     void orWithNoPredicatesIsAlwaysFalse() {
-        @SuppressWarnings("unchecked") final Predicate<String> never = Predicates.or();
+        final Predicate<String> never = Predicates.or();
         assertFalse(never.test("anything"));
     }
 }

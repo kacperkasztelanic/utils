@@ -6,7 +6,9 @@ import java.util.AbstractMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class PairTest {
 
@@ -54,13 +56,5 @@ class PairTest {
         assertTrue(s.contains("a"));
         assertTrue(s.contains("1"));
         assertFalse(s.contains("left"));
-    }
-
-    private static void assertTrue(final boolean condition) {
-        org.junit.jupiter.api.Assertions.assertTrue(condition);
-    }
-
-    private static void assertFalse(final boolean condition) {
-        org.junit.jupiter.api.Assertions.assertFalse(condition);
     }
 }

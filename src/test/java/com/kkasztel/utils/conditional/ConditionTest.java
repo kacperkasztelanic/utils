@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ConditionTest {
 
     @Test
-    @SuppressWarnings("unchecked")
     void matchReturnsFirstTrueCondition() {
         final Optional<Supplier<String>> result = match(
                 whether(() -> false, () -> "first"),
@@ -26,7 +25,6 @@ class ConditionTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void matchReturnsEmptyWhenNoConditionMatches() {
         final Optional<Supplier<String>> result = match(
                 whether(() -> false, () -> "a"),
@@ -36,7 +34,6 @@ class ConditionTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void matchWorksWithSingleStatement() {
         final Optional<Supplier<Integer>> result = match(
                 whether(() -> true, () -> 42)

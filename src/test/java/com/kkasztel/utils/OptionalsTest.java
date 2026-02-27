@@ -72,12 +72,12 @@ class OptionalsTest {
 
     @Test
     void streamReturnsSingleElementForPresent() {
-        assertEquals(1, stream(Optional.of("x")).collect(toList()).size());
+        assertEquals(1, (int) stream(Optional.of("x")).count());
         assertEquals("x", stream(Optional.of("x")).collect(toList()).get(0));
     }
 
     @Test
     void streamReturnsEmptyForEmpty() {
-        assertEquals(0, stream(Optional.empty()).collect(toList()).size());
+        assertEquals(0, (int) stream(Optional.empty()).count());
     }
 }

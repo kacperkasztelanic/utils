@@ -3,6 +3,7 @@ package com.kkasztel.utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -52,7 +53,7 @@ class ZipUtilTest {
     }
 
     private static byte[] readAll(final ZipInputStream zis) throws IOException {
-        final java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+        final ByteArrayOutputStream baos = new ByteArrayOutputStream();
         final byte[] buf = new byte[1024];
         int len;
         while ((len = zis.read(buf)) != -1) {
