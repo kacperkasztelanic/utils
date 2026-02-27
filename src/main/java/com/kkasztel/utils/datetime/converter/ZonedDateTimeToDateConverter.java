@@ -1,9 +1,9 @@
 package com.kkasztel.utils.datetime.converter;
 
+import lombok.RequiredArgsConstructor;
+
 import java.time.ZonedDateTime;
 import java.util.Date;
-
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(staticName = "of")
 public class ZonedDateTimeToDateConverter implements Converter<ZonedDateTime, Date> {

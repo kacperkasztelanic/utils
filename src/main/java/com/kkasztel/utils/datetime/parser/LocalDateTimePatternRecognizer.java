@@ -137,7 +137,7 @@ public class LocalDateTimePatternRecognizer {
 
     @Value
     @EqualsAndHashCode(of = "regex")
-    @ToString(includeFieldNames = false, of = { "regex", "dmyPattern" })
+    @ToString(includeFieldNames = false, of = {"regex", "dmyPattern"})
     private static class Entry {
 
         String regex;

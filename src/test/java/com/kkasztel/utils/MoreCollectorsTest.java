@@ -1,17 +1,18 @@
 package com.kkasztel.utils;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.AbstractMap;
-import static java.util.Arrays.asList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import static java.util.stream.Collectors.toList;
 import java.util.stream.Stream;
 
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
 
 class MoreCollectorsTest {
 

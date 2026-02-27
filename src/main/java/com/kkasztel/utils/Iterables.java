@@ -32,7 +32,9 @@ import static lombok.AccessLevel.PRIVATE;
 @NoArgsConstructor(access = PRIVATE)
 public final class Iterables {
 
-    /** Left-associative fold over an iterable. */
+    /**
+     * Left-associative fold over an iterable.
+     */
     public static <T, U> U foldLeft(final Iterable<T> iterable,
                                     final U identity,
                                     final BiFunction<? super U, ? super T, ? extends U> combine) {
@@ -44,24 +46,32 @@ public final class Iterables {
         return xs;
     }
 
-    /** Returns the first element, throwing if the iterable is empty. */
+    /**
+     * Returns the first element, throwing if the iterable is empty.
+     */
     public static <T> T head(final Iterable<T> iterable) {
         return maybeHead(iterable).orElseThrow(() -> new IndexOutOfBoundsException("Called head on an empty iterable"));
     }
 
-    /** Returns the first element, or {@code null} if the iterable is empty. */
+    /**
+     * Returns the first element, or {@code null} if the iterable is empty.
+     */
     public static <T> T headOrNull(Iterable<T> iterable) {
         return maybeHead(iterable).orElse(null);
     }
 
-    /** Returns the first element wrapped in an {@link Optional}, or empty if the iterable is empty. */
+    /**
+     * Returns the first element wrapped in an {@link Optional}, or empty if the iterable is empty.
+     */
     public static <T> Optional<T> maybeHead(final Iterable<T> iterable) {
         requireNonNull(iterable, "iterable is null");
         final Iterator<T> it = iterable.iterator();
         return it.hasNext() ? maybe(it.next()) : none();
     }
 
-    /** Zips two iterables into a list of pairs, stopping at the shorter one. */
+    /**
+     * Zips two iterables into a list of pairs, stopping at the shorter one.
+     */
     public static <T, U> List<Pair<T, U>> zip(final Iterable<T> first, final Iterable<U> second) {
         final Iterator<T> firstIt = first.iterator();
         final Iterator<U> secondIt = second.iterator();
@@ -72,7 +82,9 @@ public final class Iterables {
         return res;
     }
 
-    /** Zips each element of the iterable with its 0-based index. */
+    /**
+     * Zips each element of the iterable with its 0-based index.
+     */
     public static <T> List<Pair<T, Integer>> zipWithIndex(final Iterable<T> iterable) {
         final Iterator<T> it = iterable.iterator();
         final List<Pair<T, Integer>> res = new ArrayList<>();
@@ -82,19 +94,25 @@ public final class Iterables {
         return res;
     }
 
-    /** Concatenates multiple lists into one. */
+    /**
+     * Concatenates multiple lists into one.
+     */
     @SafeVarargs
     public static <T> List<T> combine(final List<T>... lists) {
         return Stream.of(lists).flatMap(Collection::stream).collect(toList());
     }
 
-    /** Concatenates multiple sets into one. */
+    /**
+     * Concatenates multiple sets into one.
+     */
     @SafeVarargs
     public static <T> Set<T> combine(final Set<T>... sets) {
         return Stream.of(sets).flatMap(Collection::stream).collect(toSet());
     }
 
-    /** Merges multiple maps; last-writer-wins on duplicate keys. */
+    /**
+     * Merges multiple maps; last-writer-wins on duplicate keys.
+     */
     @SafeVarargs
     public static <K, V> Map<K, V> combine(final Map<K, V>... maps) {
         return combine((a, b) -> b, maps);
@@ -123,7 +141,9 @@ public final class Iterables {
                 ));
     }
 
-    /** Returns the symmetric difference of two sets. */
+    /**
+     * Returns the symmetric difference of two sets.
+     */
     public static <T> Set<T> differentiate(final Set<T> a, final Set<T> b) {
         requireNonNull(a, "a is null");
         requireNonNull(b, "b is null");
@@ -133,7 +153,9 @@ public final class Iterables {
         ).collect(toSet());
     }
 
-    /** Returns all elements in {@code a} that are not in {@code b}. */
+    /**
+     * Returns all elements in {@code a} that are not in {@code b}.
+     */
     public static <T> Set<T> subtract(final Set<T> a, final Set<T> b) {
         requireNonNull(a, "a is null");
         requireNonNull(b, "b is null");
@@ -142,7 +164,9 @@ public final class Iterables {
                 .collect(toSet());
     }
 
-    /** Returns the intersection of two sets. */
+    /**
+     * Returns the intersection of two sets.
+     */
     public static <T> Set<T> intersect(final Set<T> a, final Set<T> b) {
         requireNonNull(a, "a is null");
         requireNonNull(b, "b is null");
@@ -151,7 +175,9 @@ public final class Iterables {
                 .collect(toSet());
     }
 
-    /** Returns a new map with keys and values swapped. Assumes values are unique. */
+    /**
+     * Returns a new map with keys and values swapped. Assumes values are unique.
+     */
     public static <K, V> Map<V, K> invert(final Map<K, V> map) {
         requireNonNull(map, "map is null");
         return map.entrySet().stream().collect(toMap(Map.Entry::getValue, Map.Entry::getKey));

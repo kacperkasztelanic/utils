@@ -1,7 +1,8 @@
 package com.kkasztel.utils.io;
 
-import static lombok.AccessLevel.PRIVATE;
 import lombok.NoArgsConstructor;
+
+import static lombok.AccessLevel.PRIVATE;
 
 /**
  * Represents the absence of a meaningful value, analogous to {@code void} but usable as a type.

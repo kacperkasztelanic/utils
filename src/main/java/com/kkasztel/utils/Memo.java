@@ -1,10 +1,10 @@
 package com.kkasztel.utils;
 
+import lombok.NoArgsConstructor;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
-
-import lombok.NoArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
 
@@ -19,7 +19,9 @@ public final class Memo<T, U> {
 
     private final Map<T, U> cache = new ConcurrentHashMap<>();
 
-    /** Returns a memoized version of the given function. */
+    /**
+     * Returns a memoized version of the given function.
+     */
     public static <T, U> Function<T, U> memoize(final Function<T, U> f) {
         return new Memo<T, U>().doMemoize(f);
     }

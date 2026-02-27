@@ -1,10 +1,10 @@
 package com.kkasztel.utils.io;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
-import lombok.RequiredArgsConstructor;
 
 import static com.kkasztel.utils.Optionals.maybe;
 import static com.kkasztel.utils.Optionals.none;
@@ -63,7 +63,7 @@ public class IO<T> {
         return IO.of(() -> f.apply(effect.run()).run());
     }
 
-    public  <U> IO<U> andThen(final IO<U> io) {
+    public <U> IO<U> andThen(final IO<U> io) {
         return flatMap(x -> io);
     }
 }

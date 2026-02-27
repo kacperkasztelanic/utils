@@ -1,5 +1,7 @@
 package com.kkasztel.utils;
 
+import lombok.NoArgsConstructor;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
@@ -7,7 +9,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import static lombok.AccessLevel.PRIVATE;
-import lombok.NoArgsConstructor;
 
 /**
  * Utility for creating in-memory ZIP archives from a map of filenames to byte contents.

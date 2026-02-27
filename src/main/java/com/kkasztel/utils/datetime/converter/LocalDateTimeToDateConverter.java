@@ -1,10 +1,10 @@
 package com.kkasztel.utils.datetime.converter;
 
+import lombok.RequiredArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-
-import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor(staticName = "of")
 public class LocalDateTimeToDateConverter implements Converter<LocalDateTime, Date> {

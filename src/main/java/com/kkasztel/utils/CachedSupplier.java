@@ -1,9 +1,9 @@
 package com.kkasztel.utils;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
-
-import lombok.RequiredArgsConstructor;
 
 /**
  * A thread-safe supplier that caches the result of a delegate supplier.
@@ -18,7 +18,9 @@ public class CachedSupplier<T> implements Supplier<T> {
     private final Supplier<T> delegate;
     private final AtomicReference<T> value = new AtomicReference<>();
 
-    /** Returns the cached value, computing it from the delegate if necessary. */
+    /**
+     * Returns the cached value, computing it from the delegate if necessary.
+     */
     @Override
     public T get() {
         T val = value.get();
@@ -34,7 +36,9 @@ public class CachedSupplier<T> implements Supplier<T> {
         return val;
     }
 
-    /** Clears the cached value so it will be recomputed on the next call to {@link #get()}. */
+    /**
+     * Clears the cached value so it will be recomputed on the next call to {@link #get()}.
+     */
     public void invalidate() {
         synchronized (value) {
             value.set(null);

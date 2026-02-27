@@ -1,10 +1,11 @@
 package com.kkasztel.utils;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test;
 
 class MemoTest {
 

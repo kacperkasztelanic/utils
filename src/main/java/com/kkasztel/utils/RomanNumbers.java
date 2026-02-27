@@ -1,14 +1,14 @@
 package com.kkasztel.utils;
 
+import com.kkasztel.utils.tuple.Pair;
+import lombok.NoArgsConstructor;
+
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
-
-import com.kkasztel.utils.tuple.Pair;
-import lombok.NoArgsConstructor;
 
 import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toMap;

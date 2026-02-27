@@ -1,14 +1,10 @@
 package com.kkasztel.utils;
 
+import org.junit.jupiter.api.Test;
+
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import static java.util.stream.Collectors.toList;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test;
 
 import static com.kkasztel.utils.Optionals.ifEmpty;
 import static com.kkasztel.utils.Optionals.ifPresentOrElse;
@@ -16,6 +12,10 @@ import static com.kkasztel.utils.Optionals.maybe;
 import static com.kkasztel.utils.Optionals.none;
 import static com.kkasztel.utils.Optionals.some;
 import static com.kkasztel.utils.Optionals.stream;
+import static java.util.stream.Collectors.toList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class OptionalsTest {
 

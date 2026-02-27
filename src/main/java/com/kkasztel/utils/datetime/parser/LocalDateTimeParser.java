@@ -1,12 +1,12 @@
 package com.kkasztel.utils.datetime.parser;
 
+import lombok.RequiredArgsConstructor;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
-
-import lombok.RequiredArgsConstructor;
 
 import static lombok.AccessLevel.PRIVATE;
 

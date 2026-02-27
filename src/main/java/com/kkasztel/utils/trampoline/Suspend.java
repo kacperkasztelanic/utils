@@ -1,8 +1,8 @@
 package com.kkasztel.utils.trampoline;
 
-import java.util.function.Supplier;
-
 import lombok.Value;
+
+import java.util.function.Supplier;
 
 import static java.util.stream.Stream.iterate;
 

@@ -1,8 +1,8 @@
 package com.kkasztel.utils.conditional;
 
-import java.util.function.Supplier;
-
 import lombok.Value;
+
+import java.util.function.Supplier;
 
 /**
  * A pair of a boolean condition and a lazily-evaluated action, used with {@link Condition}.
