@@ -14,6 +14,13 @@ This file provides guidance to coding agents when working with code in this repo
 
 Tests run in parallel by default (`src/test/resources/junit-platform.properties`), so tests must be independent and free of shared mutable state.
 
+## Git & Release Workflow
+
+- **Commit subject**: imperative mood (e.g. "Add", "Fix", "Migrate" — not "Added"/"Fixes").
+- **Commit body**: leave empty. The subject line is the entire message.
+- **Merging**: integrate `dev` into `master` with fast-forward merges only (no merge commits).
+- **Pushing**: the user pushes manually. Agents must not push to any remote.
+
 ## Architecture
 
 Zero-runtime-dependency Java 8 utility library published to JitPack/Maven (group `com.kkasztel`, base package `com.kkasztel.utils`). Built with Gradle (`java-library`).
